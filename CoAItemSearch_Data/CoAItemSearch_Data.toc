@@ -1,0 +1,12 @@
+## Interface: 30300
+## Title: CoA Item Search (data)
+## Notes: Item list for CoA Item Search, loaded on demand
+## LoadOnDemand: 1
+data1.lua
+data2.lua
+data3.lua
+data4.lua
+data5.lua
+data6.lua
+data7.lua
+data8.lua

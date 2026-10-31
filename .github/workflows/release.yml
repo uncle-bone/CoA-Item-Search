@@ -1,0 +1,30 @@
+name: Build and publish addon release
+on:
+  push:
+    branches: [main]
+    paths: ['.release.json']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, zipfile, os
+          cfg=json.loads(pathlib.Path('.release.json').read_text())
+          out=pathlib.Path('dist'); out.mkdir(exist_ok=True)
+          asset=out/(os.environ['GITHUB_REPOSITORY'].split('/')[-1]+'-'+cfg['version']+'.zip')
+          with zipfile.ZipFile(asset,'w',zipfile.ZIP_DEFLATED) as z:
+              for folder in cfg['folders']:
+                  for p in sorted(pathlib.Path(folder).rglob('*')):
+                      if p.is_file(): z.write(p,p.as_posix())
+          with zipfile.ZipFile(asset) as z: assert z.testzip() is None
+          pathlib.Path('VERSION').write_text(cfg['version'])
+          PY
+          VERSION=$(python3 -c "import json;print(json.load(open('.release.json'))['version'])")
+          gh release create "$VERSION" "dist/${GITHUB_REPOSITORY##*/}-$VERSION.zip" --target "$GITHUB_SHA" --title "CoA Item Search $VERSION" --prerelease --notes-file RELEASE-NOTES.md

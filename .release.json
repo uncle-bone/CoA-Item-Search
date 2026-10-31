@@ -1,0 +1,9 @@
+{
+  "version": "v1.0.1",
+  "prerelease": true,
+  "folders": [
+    "CoAItemSearch",
+    "CoAItemSearch_Data"
+  ],
+  "extras": []
+}

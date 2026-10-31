@@ -1,0 +1,9 @@
+## Interface: 30300
+## Title: CoA Item Search - Database Harvester
+## Notes: Search items and collect client-visible item records for CoA-Research
+## Author: Uncle Bone
+## Version: 1.0.1
+## SavedVariables: CoAItemSearchHarvest
+## OptionalDeps: CoAItemSearch_Data
+CoAItemSearch.lua
+Scanner.lua
